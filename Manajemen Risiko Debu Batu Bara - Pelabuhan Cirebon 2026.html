@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manajemen Risiko Debu Batu Bara — Pelabuhan Cirebon 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0D3F78;
+    --navy-deep:#062B57;
+    --ink:#233444;
+    --ink-dim:#5C7185;
+    --bg:#F2F6F9;
+    --card:#FFFFFF;
+    --line:#E1E7EE;
+    --red:#DE0603;
+    --orange:#D76E18;
+    --yellow:#FFDE59;
+    --green:#08943F;
+    --green-deep:#066A2E;
+    --water:#2E7FC1;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Work Sans',sans-serif;font-size:16px;line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      linear-gradient(90deg, rgba(13,63,120,0.05) 1px, transparent 1px),
+      linear-gradient(0deg, rgba(13,63,120,0.05) 1px, transparent 1px);
+    background-size:34px 34px;
+  }
+  h1,h2,h3,h4{font-family:'Baloo 2',sans-serif;margin:0;color:var(--navy);}
+  .mono{font-family:'IBM Plex Mono',monospace;}
+  a{color:inherit;}
+  :focus-visible{outline:2px solid var(--orange);outline-offset:3px;}
+  p{margin:0;}
+  ul{margin:0;padding:0;list-style:none;}
+  button{font:inherit;color:inherit;}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px;}
+  [data-reveal]{opacity:0;transform:translateY(12px);transition:opacity .55s ease,transform .55s ease;}
+  [data-reveal].is-visible{opacity:1;transform:translateY(0);}
+  @media (prefers-reduced-motion:reduce){
+    [data-reveal]{opacity:1;transform:none;transition:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  #progress{position:fixed;top:0;left:0;height:3px;width:0%;
+    background:linear-gradient(90deg,var(--navy),var(--orange),var(--red));z-index:60;transition:width .08s linear;}
+
+  .rail{position:fixed;right:20px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:15px;z-index:50;}
+  .rail a{width:9px;height:9px;border-radius:50%;border:1px solid var(--ink-dim);background:transparent;display:block;position:relative;}
+  .rail a span{position:absolute;right:18px;top:50%;transform:translateY(-50%);font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--ink-dim);background:var(--card);padding:2px 6px;border-radius:2px;white-space:nowrap;opacity:0;transition:opacity .15s ease;box-shadow:0 1px 4px rgba(0,0,0,.1);}
+  .rail a:hover span,.rail a:focus-visible span{opacity:1;}
+  .rail a.active{background:var(--red);border-color:var(--red);}
+  @media (max-width:900px){.rail{display:none;}}
+
+  /* topbar */
+  .topbar{background:var(--card);border-bottom:1px solid var(--line);padding:14px 24px;}
+  .topbar-inner{max-width:1120px;margin:0 auto;display:flex;justify-content:center;align-items:center;gap:16px;font-family:'Baloo 2',sans-serif;font-weight:700;color:var(--navy);font-size:15px;flex-wrap:wrap;}
+  .topbar-inner .div{width:1px;height:18px;background:var(--line);}
+  .topbar-inner .sub{font-family:'Work Sans',sans-serif;font-weight:600;font-size:11px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.06em;}
+
+  /* title block */
+  .titleblock{padding:36px 0 22px;}
+  .eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-dim);display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+  .eyebrow::before{content:'';width:22px;height:2px;background:var(--red);display:inline-block;}
+  .titleblock h1{font-size:clamp(26px,4.4vw,44px);line-height:1.15;text-transform:uppercase;max-width:820px;}
+  .titleblock h1 .r{color:var(--red);}
+
+  /* hero scene (SVG illustration) */
+  .scene-card{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 10px 28px rgba(13,63,120,0.1);overflow:hidden;margin-bottom:8px;}
+  .scene-card svg{display:block;width:100%;height:auto;}
+  .callouts-desktop{}
+  .mobile-callouts{display:none;flex-wrap:wrap;gap:8px;padding:14px 18px;background:var(--card);border-top:1px solid var(--line);}
+  .mobile-callouts span{background:var(--navy);color:#fff;font-size:11px;font-weight:600;padding:5px 10px;border-radius:3px;}
+  @media (max-width:700px){
+    .callouts-desktop{display:none;}
+    .mobile-callouts{display:flex;}
+  }
+
+  /* generic section */
+  section{padding:52px 0;}
+  .sec-bar{background:linear-gradient(90deg,var(--navy),var(--navy-deep));color:#fff;padding:13px 22px;border-radius:6px;margin-bottom:8px;box-shadow:0 6px 16px rgba(13,63,120,.18);}
+  .sec-bar h2{color:#fff;font-size:clamp(16px,2.2vw,20px);letter-spacing:.02em;text-transform:uppercase;}
+  .sec-hint{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);margin:0 0 22px;letter-spacing:.03em;}
+
+  /* id + dampak two-col */
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:26px 26px 24px;box-shadow:0 4px 14px rgba(13,63,120,.06);}
+  .id-icon{width:46px;height:46px;border:3px solid var(--navy);border-radius:50%;position:relative;margin-bottom:16px;}
+  .id-icon::after{content:'';position:absolute;bottom:-9px;right:-9px;width:14px;height:3px;background:var(--navy);transform:rotate(45deg);}
+  .card p.statement{font-size:15px;color:var(--ink);}
+  .badge-op{display:inline-flex;align-items:center;gap:8px;background:var(--red);color:#fff;font-weight:700;font-size:13px;padding:8px 14px;border-radius:4px;margin-top:16px;}
+  .badge-op b{font-family:'Work Sans';font-weight:400;font-size:11px;text-transform:none;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:3px;}
+  .dampak-list li{position:relative;padding-left:20px;margin-bottom:10px;font-size:14.5px;color:var(--ink);}
+  .dampak-list li:last-child{margin-bottom:0;}
+  .dampak-list li::before{content:'';position:absolute;left:0;top:8px;width:7px;height:7px;border-radius:50%;background:var(--orange);}
+  @media (max-width:760px){.twocol{grid-template-columns:1fr;}}
+
+  /* mitigasi 3 col — interactive */
+  .threecol{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;align-items:start;}
+  .mit-card h3{font-size:14px;color:var(--card);background:var(--navy);padding:10px 14px;border-radius:6px 6px 0 0;margin:-26px -26px 18px;text-align:center;letter-spacing:.03em;}
+  .mit-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .mit-grid.wide{grid-template-columns:1fr;}
+  .mit-item{
+    all:unset;box-sizing:border-box;cursor:pointer;
+    display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;
+    padding:14px 10px;border-radius:8px;border:1px solid var(--line);background:var(--bg);
+    transition:box-shadow .2s ease,border-color .2s ease,transform .15s ease;
+  }
+  .mit-item:hover{border-color:var(--water);box-shadow:0 4px 14px rgba(13,63,120,.1);transform:translateY(-2px);}
+  .mit-item:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
+  .mit-item.open{border-color:var(--navy);background:#fff;box-shadow:0 6px 16px rgba(13,63,120,.12);}
+  .mit-item.wide{flex-direction:row;text-align:left;align-items:flex-start;}
+  .mit-icon{width:34px;height:34px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;color:var(--water);flex:none;box-shadow:inset 0 0 0 1px var(--line);}
+  .mit-item.wide .mit-icon{margin-top:1px;}
+  .mit-icon svg{width:18px;height:18px;}
+  .mit-body{display:flex;flex-direction:column;gap:4px;min-width:0;}
+  .mit-label{font-size:12.5px;font-weight:700;color:var(--ink);}
+  .mit-detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .32s ease,opacity .25s ease,margin-top .32s ease;font-size:11.5px;color:var(--ink-dim);line-height:1.5;margin-top:0;}
+  .mit-item.open .mit-detail{max-height:160px;opacity:1;margin-top:2px;}
+  .mit-item.eco .mit-icon{color:var(--green);}
+  .mit-item.terpal .mit-icon{color:var(--orange);}
+  .mit-item.dustnet .mit-icon{color:var(--ink-dim);}
+  .mit-item.wash .mit-icon{color:var(--water);}
+  .mit-item.port .mit-icon{color:#4C93C4;}
+  .mit-item.sop .mit-icon{color:var(--orange);}
+  .mit-item.komm .mit-icon{color:var(--navy);}
+
+  .apd-card{display:flex;flex-direction:column;gap:8px;}
+  .apd-chip{all:unset;box-sizing:border-box;cursor:pointer;display:block;padding:11px 14px;border-radius:8px;border:1px solid var(--line);background:var(--bg);transition:border-color .2s ease,background .2s ease,box-shadow .2s ease;}
+  .apd-chip:hover{border-color:var(--yellow);}
+  .apd-chip:focus-visible{outline:2px solid var(--orange);outline-offset:2px;}
+  .apd-chip.open{background:#fff;border-color:var(--navy);box-shadow:0 4px 12px rgba(13,63,120,.08);}
+  .apd-chip-head{display:flex;align-items:center;gap:12px;}
+  .apd-chip-icon{width:28px;height:28px;border-radius:50%;background:var(--yellow);display:flex;align-items:center;justify-content:center;color:var(--navy);flex:none;}
+  .apd-chip-icon svg{width:15px;height:15px;}
+  .apd-chip-label{font-weight:700;color:var(--navy);font-size:13.5px;flex:1;}
+  .apd-chip-plus{font-size:17px;color:var(--ink-dim);transition:transform .2s ease;line-height:1;}
+  .apd-chip.open .apd-chip-plus{transform:rotate(45deg);}
+  .apd-chip-detail{max-height:0;opacity:0;overflow:hidden;transition:max-height .3s ease,opacity .25s ease,margin-top .3s ease;font-size:12px;color:var(--ink-dim);padding-left:40px;margin-top:0;}
+  .apd-chip.open .apd-chip-detail{max-height:80px;opacity:1;margin-top:8px;}
+  @media (max-width:900px){.threecol{grid-template-columns:1fr;}}
+
+  /* arsitektur */
+  .matrix-block{margin-bottom:28px;}
+  .matrix{width:100%;border-collapse:collapse;font-size:12px;background:var(--card);border-radius:8px;overflow:hidden;box-shadow:0 4px 14px rgba(13,63,120,.06);}
+  .matrix th,.matrix td{border:1px solid #fff;text-align:center;padding:8px 4px;}
+  .matrix thead th{background:var(--navy);color:#fff;font-size:10.5px;padding:6px 3px;}
+  .matrix .rowlabel{background:var(--card);color:var(--ink);font-size:10px;font-weight:600;text-align:left;padding:6px 8px;white-space:nowrap;}
+  .matrix .rowlet{background:var(--navy);color:#fff;font-weight:700;width:22px;}
+  .matrix td.cell{color:var(--ink);font-weight:700;font-family:'IBM Plex Mono',monospace;font-size:12.5px;}
+  .matrix td.cell small{display:block;font-family:'Work Sans';font-weight:600;font-size:9px;}
+  .matrix .axis-label{background:var(--card);font-size:9.5px;color:var(--ink-dim);font-weight:600;}
+  .matrix .impact-head{background:var(--card);color:var(--ink-dim);font-size:9px;font-weight:500;}
+  .lvl1{background:#1E8449;color:#fff;}
+  .lvl2{background:#7DC96B;}
+  .lvl3{background:#F5E33C;}
+  .lvl4{background:#F0A22E;}
+  .lvl5{background:#E0342A;color:#fff;}
+  .cell.marker{outline:3px solid var(--navy);outline-offset:-3px;position:relative;}
+  .matrix-note{margin-top:10px;font-size:12px;color:var(--ink-dim);}
+  .matrix-note b{color:var(--navy);}
+  .matrix-legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px;}
+  .matrix-legend .lg{font-size:11px;font-weight:600;padding:5px 10px;border-radius:4px;display:inline-flex;gap:6px;align-items:baseline;}
+  .matrix-legend .lg small{font-family:'IBM Plex Mono',monospace;font-weight:500;opacity:.85;margin-left:4px;}
+  .matrix-legend .lg.lvl1{background:#1E8449;color:#fff;}
+  .matrix-legend .lg.lvl2{background:#7DC96B;color:#0d3f1f;}
+  .matrix-legend .lg.lvl3{background:#F5E33C;color:#3d3400;}
+  .matrix-legend .lg.lvl4{background:#F0A22E;color:#3d2400;}
+  .matrix-legend .lg.lvl5{background:#E0342A;color:#fff;}
+
+  .risklevels-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .rl-card{background:var(--card);border-radius:8px;overflow:hidden;border:1px solid var(--line);box-shadow:0 4px 14px rgba(13,63,120,.06);}
+  .rl-head{display:flex;justify-content:space-between;align-items:center;padding:13px 18px;color:#fff;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;text-transform:uppercase;gap:10px;}
+  .rl-figure{font-family:'IBM Plex Mono',monospace;font-size:11.5px;font-weight:600;background:rgba(255,255,255,.22);padding:3px 8px;border-radius:4px;text-transform:none;white-space:nowrap;}
+  .rl-cap .rl-head{background:var(--red);}
+  .rl-tol .rl-head{background:var(--orange);}
+  .rl-app .rl-head{background:var(--yellow);color:var(--ink);}
+  .rl-app .rl-figure{background:rgba(0,0,0,.08);}
+  .rl-lim .rl-head{background:var(--green);}
+  .rl-body{padding:16px 18px;}
+  .rl-def{font-size:12px;font-style:italic;color:var(--ink-dim);padding-bottom:10px;border-bottom:1px dashed var(--line);margin-bottom:10px;}
+  .rl-ctx{font-size:13px;color:var(--ink);margin-bottom:12px;}
+  .rl-params li{font-size:12.5px;color:var(--ink-dim);padding-left:14px;position:relative;margin-bottom:6px;}
+  .rl-params li:last-child{margin-bottom:0;}
+  .rl-params li::before{content:'—';position:absolute;left:0;}
+  .rl-params li b{color:var(--navy);font-weight:700;}
+  @media (max-width:900px){.risklevels-grid{grid-template-columns:1fr;}}
+  @media (max-width:520px){.matrix{font-size:9px;}}
+
+  footer{padding:28px 0 40px;border-top:1px solid var(--line);margin-top:20px;}
+  .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--ink-dim);}
+  .foot-row b{color:var(--navy);}
+</style>
+</head>
+<body>
+
+<div id="progress" aria-hidden="true"></div>
+
+<nav class="rail" aria-label="Navigasi bagian">
+  <a href="#hero" data-target="hero"><span>Hero</span></a>
+  <a href="#identifikasi" data-target="identifikasi"><span>Identifikasi</span></a>
+  <a href="#mitigasi" data-target="mitigasi"><span>Mitigasi</span></a>
+  <a href="#arsitektur" data-target="arsitektur"><span>Arsitektur Risiko</span></a>
+</nav>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <span>Danantara Indonesia</span>
+    <span class="div"></span>
+    <span>Pelindo <span class="sub">Indonesia Maritime Gateway</span></span>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="titleblock" id="hero">
+    <p class="eyebrow">Manajemen Risiko · Pelabuhan Cirebon · 2026</p>
+    <h1>Memahami Pengendalian <span class="r">Risiko</span> Dampak Debu Batu Bara di Pelabuhan</h1>
+  </div>
+
+  <div class="scene-card" data-reveal>
+    <svg viewBox="0 0 1200 420" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ilustrasi area bongkar muat batu bara di Pelabuhan Cirebon dengan zona mitigasi debu dan permukiman warga">
+      <defs>
+        <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stop-color="#BFE3F5"/>
+          <stop offset="26%" stop-color="#D9E7E6"/>
+          <stop offset="52%" stop-color="#E9ECE1"/>
+          <stop offset="74%" stop-color="#E6F0DC"/>
+          <stop offset="100%" stop-color="#DCEAD0"/>
+        </linearGradient>
+        <linearGradient id="waterGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#AEDBF2"/>
+          <stop offset="100%" stop-color="#3E86B5"/>
+        </linearGradient>
+        <linearGradient id="hullGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#357A62"/>
+          <stop offset="100%" stop-color="#153A2C"/>
+        </linearGradient>
+        <linearGradient id="shieldGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4FCB8B"/>
+          <stop offset="100%" stop-color="#0B7A44"/>
+        </linearGradient>
+        <radialGradient id="heatGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#FFDE59" stop-opacity="0.9"/>
+          <stop offset="45%" stop-color="#F0A22E" stop-opacity="0.55"/>
+          <stop offset="75%" stop-color="#E0342A" stop-opacity="0.25"/>
+          <stop offset="100%" stop-color="#E0342A" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="8"/>
+        </filter>
+      </defs>
+
+      <rect x="0" y="0" width="1200" height="420" fill="url(#bgGrad)"/>
+
+      <path d="M0,0 L0,420 L300,420 C332,420 316,300 334,224 C350,150 306,60 338,0 Z" fill="url(#waterGrad)"/>
+      <path d="M20,120 q30,-8 60,0" stroke="#fff" stroke-opacity="0.35" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M60,200 q34,-9 68,0" stroke="#fff" stroke-opacity="0.3" stroke-width="3" fill="none" stroke-linecap="round"/>
+      <path d="M30,290 q30,-8 60,0" stroke="#fff" stroke-opacity="0.3" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+      <rect x="330" y="372" width="440" height="48" fill="#D7DAD1"/>
+      <path d="M340,396 h420" stroke="#fff" stroke-width="4" stroke-dasharray="16 12" stroke-opacity="0.6"/>
+
+      <g>
+        <ellipse cx="150" cy="340" rx="95" ry="10" fill="#0B2A3C" opacity="0.15"/>
+        <path d="M62,300 C62,286 72,280 90,280 L208,280 C224,280 231,286 231,300 L224,324 C222,331 214,334 204,334 L96,334 C86,334 78,331 76,324 Z" fill="url(#hullGrad)"/>
+        <path d="M78,280 C82,256 102,244 122,250 C136,236 162,238 176,252 C196,240 217,250 220,268 L220,280 Z" fill="#181B1F"/>
+        <path d="M95,270 C110,258 130,254 148,258" stroke="#3A3F46" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <rect x="192" y="248" width="28" height="32" rx="3" fill="#26466B"/>
+        <rect x="200" y="256" width="10" height="8" rx="1" fill="#8FC1E8"/>
+        <line x1="206" y1="248" x2="206" y2="238" stroke="#26466B" stroke-width="2"/>
+        <circle cx="206" cy="236" r="2.4" fill="#DE0603"/>
+      </g>
+
+      <circle cx="530" cy="335" r="130" fill="url(#heatGrad)" filter="url(#soft)"/>
+
+      <g transform="translate(430,255)">
+        <ellipse cx="55" cy="118" rx="60" ry="8" fill="#0B2A3C" opacity="0.12"/>
+        <rect x="10" y="96" width="96" height="22" rx="8" fill="#3B4148"/>
+        <rect x="26" y="66" width="46" height="34" rx="6" fill="#3E7A8C"/>
+        <rect x="34" y="74" width="16" height="14" rx="2" fill="#BFE3F0"/>
+        <path d="M66,80 C100,64 118,40 132,10" stroke="#4A535C" stroke-width="9" fill="none" stroke-linecap="round"/>
+        <path d="M132,10 C122,6 108,10 100,22" stroke="#4A535C" stroke-width="7" fill="none" stroke-linecap="round"/>
+        <path d="M96,26 L124,14 L118,34 L92,40 Z" fill="#E0A63E"/>
+      </g>
+
+      <g transform="translate(600,290)">
+        <ellipse cx="45" cy="76" rx="52" ry="7" fill="#0B2A3C" opacity="0.12"/>
+        <rect x="0" y="30" width="90" height="34" rx="4" fill="#3B4148"/>
+        <rect x="6" y="14" width="60" height="10" rx="3" fill="#3E86B5" opacity="0.85"/>
+        <rect x="-22" y="26" width="26" height="30" rx="4" fill="#26466B"/>
+        <rect x="-16" y="32" width="14" height="10" rx="2" fill="#8FC1E8"/>
+        <circle cx="8" cy="66" r="9" fill="#20242A"/>
+        <circle cx="8" cy="66" r="3.4" fill="#8B8F94"/>
+        <circle cx="68" cy="66" r="9" fill="#20242A"/>
+        <circle cx="68" cy="66" r="3.4" fill="#8B8F94"/>
+      </g>
+
+      <g transform="translate(800,190)">
+        <ellipse cx="35" cy="140" rx="46" ry="8" fill="#0B2A3C" opacity="0.1"/>
+        <g transform="translate(-40,-40)">
+          <circle cx="10" cy="18" r="16" fill="#3F7A52" opacity="0.9"/>
+          <rect x="8" y="30" width="4" height="10" fill="#5C4326"/>
+          <circle cx="34" cy="10" r="13" fill="#4A8C5E" opacity="0.9"/>
+          <rect x="32" y="20" width="3" height="8" fill="#5C4326"/>
+          <circle cx="55" cy="20" r="15" fill="#3F7A52" opacity="0.9"/>
+          <rect x="53" y="32" width="4" height="9" fill="#5C4326"/>
+        </g>
+        <path d="M35,40 C15,40 2,46 2,46 C2,88 10,120 35,140 C60,120 68,88 68,46 C68,46 55,40 35,40 Z" fill="url(#shieldGrad)"/>
+        <path d="M22,90 L32,102 L52,72" stroke="#EFFBF3" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.9"/>
+      </g>
+
+      <g class="callouts-desktop" font-family="'Work Sans',sans-serif" font-size="15" font-weight="600">
+        <line x1="805" y1="215" x2="855" y2="196" stroke="#0D3F78" stroke-width="2"/>
+        <circle cx="805" cy="215" r="4" fill="#fff" stroke="#0D3F78" stroke-width="2"/>
+        <rect x="857" y="180" width="118" height="32" rx="6" fill="#0D3F78"/>
+        <text x="916" y="201" fill="#fff" text-anchor="middle">Eco Strategy</text>
+
+        <line x1="565" y1="255" x2="855" y2="255" stroke="#0D3F78" stroke-width="2"/>
+        <circle cx="565" cy="255" r="4" fill="#fff" stroke="#0D3F78" stroke-width="2"/>
+        <rect x="857" y="239" width="128" height="32" rx="6" fill="#0D3F78"/>
+        <text x="921" y="260" fill="#fff" text-anchor="middle">Water Sprayer</text>
+
+        <line x1="815" y1="300" x2="855" y2="314" stroke="#0D3F78" stroke-width="2"/>
+        <circle cx="815" cy="300" r="4" fill="#fff" stroke="#0D3F78" stroke-width="2"/>
+        <rect x="857" y="298" width="102" height="32" rx="6" fill="#0D3F78"/>
+        <text x="908" y="319" fill="#fff" text-anchor="middle">Dust Net</text>
+
+        <line x1="670" y1="330" x2="855" y2="373" stroke="#0D3F78" stroke-width="2"/>
+        <circle cx="670" cy="330" r="4" fill="#fff" stroke="#0D3F78" stroke-width="2"/>
+        <rect x="857" y="357" width="118" height="32" rx="6" fill="#0D3F78"/>
+        <text x="916" y="378" fill="#fff" text-anchor="middle">Truck Wash</text>
+      </g>
+
+      <g transform="translate(950,300)">
+        <ellipse cx="20" cy="80" rx="26" ry="6" fill="#0B2A3C" opacity="0.1"/>
+        <circle cx="10" cy="40" r="15" fill="#3F6B3A"/>
+        <rect x="8" y="52" width="4" height="18" fill="#5C4326"/>
+        <rect x="30" y="42" width="46" height="38" fill="#EFE3CE"/>
+        <path d="M26,42 C40,20 66,20 80,42 Z" fill="#6E93A8"/>
+        <rect x="46" y="58" width="14" height="22" fill="#B8CBD6"/>
+      </g>
+      <g transform="translate(1040,282)">
+        <ellipse cx="26" cy="98" rx="34" ry="7" fill="#0B2A3C" opacity="0.1"/>
+        <rect x="0" y="52" width="58" height="46" fill="#F4E8D2"/>
+        <path d="M-6,52 C10,24 46,24 62,52 Z" fill="#C97B5A"/>
+        <rect x="22" y="72" width="16" height="26" fill="#8A5A38"/>
+        <rect x="6" y="60" width="12" height="10" fill="#B8CBD6"/>
+        <rect x="38" y="60" width="12" height="10" fill="#B8CBD6"/>
+      </g>
+      <g transform="translate(1120,300)">
+        <ellipse cx="18" cy="80" rx="24" ry="6" fill="#0B2A3C" opacity="0.1"/>
+        <rect x="0" y="44" width="42" height="38" fill="#EFE3CE"/>
+        <path d="M-5,44 C7,24 34,24 46,44 Z" fill="#8FA9B8"/>
+        <circle cx="55" cy="60" r="11" fill="#4A8C5E"/>
+        <rect x="53" y="70" width="3" height="12" fill="#5C4326"/>
+      </g>
+    </svg>
+    <div class="mobile-callouts" aria-hidden="true">
+      <span>Eco Strategy</span><span>Water Sprayer</span><span>Dust Net</span><span>Truck Wash</span>
+    </div>
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section id="identifikasi">
+    <div class="twocol" data-reveal>
+      <div class="card">
+        <div class="sec-bar" style="margin:-26px -26px 20px;border-radius:8px 8px 0 0;"><h2>1. Identifikasi Risiko</h2></div>
+        <div class="id-icon"></div>
+        <p class="statement">Efek pencemaran udara yang tidak bisa dikendalikan atas kegiatan bongkar muat batu bara menyebabkan demo masyarakat yang berujung menimbulkan gangguan operasional pelabuhan.</p>
+        <div class="badge-op">Kategori Risiko DAM <b>Operational Risk</b></div>
+      </div>
+      <div class="card">
+        <div class="sec-bar" style="margin:-26px -26px 20px;border-radius:8px 8px 0 0;"><h2>2. Dampak Risiko</h2></div>
+        <ul class="dampak-list">
+          <li>Penurunan kualitas udara ambien</li>
+          <li>Gangguan kesehatan pekerja &amp; masyarakat</li>
+          <li>Demo tuntutan masyarakat</li>
+          <li>Potensi blokade akses pelabuhan (logistik macet)</li>
+          <li>Operasional pelabuhan terhambat</li>
+          <li>Denda demurrage &amp; target kinerja tidak tercapai</li>
+          <li>Pemberitaan negatif perusahaan</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="mitigasi">
+    <div class="sec-bar" data-reveal><h2>3. Strategi Mitigasi Risiko Terintegrasi</h2></div>
+    <p class="sec-hint mono" data-reveal>Ketuk / klik tiap item untuk lihat detail penerapannya →</p>
+    <div class="threecol" data-reveal>
+      <div class="card mit-card">
+        <h3>Rekayasa Teknik</h3>
+        <div class="mit-grid">
+          <button class="mit-item" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3c-3 4-6 7.5-6 11a6 6 0 0012 0c0-3.5-3-7-6-11z"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Water Sprayer</span><span class="mit-detail">Pemasangan water sprayer &amp; alkon di setiap sisi tongkang saat bongkar muat berlangsung.</span></span>
+          </button>
+          <button class="mit-item eco" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="9" r="7"/><rect x="10.5" y="15" width="3" height="7" rx="1"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Eco Strategy</span><span class="mit-detail">Penanaman pohon tinggi di batas perimeter pelabuhan untuk memecah kecepatan angin.</span></span>
+          </button>
+          <button class="mit-item terpal" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 16 Q12 8 21 16 L21 19 Q12 13 3 19 Z"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Terpal Bak Truk</span><span class="mit-detail">Truk wajib memasang terpal pada bak sebelum keluar dari area pelabuhan.</span></span>
+          </button>
+          <button class="mit-item dustnet" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2.5" y="2.5" width="19" height="19" rx="2"/><path d="M2.5 9h19M2.5 15h19M9 2.5v19M15 2.5v19"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Dust Net</span><span class="mit-detail">Jaring penahan debu agar tidak masuk ke area permukiman warga.</span></span>
+          </button>
+          <button class="mit-item wash" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="9" width="12" height="7" rx="1.5"/><path d="M14 11h4l3 3v2h-7z" opacity="0.7"/><circle cx="6" cy="18" r="2"/><circle cx="16" cy="18" r="2"/><path d="M4 4c.6 1 1 1.6 1 2.4A1 1 0 013 6.4C3 5.6 3.4 4.8 4 4z" opacity="0.6"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Truck Wash</span><span class="mit-detail">Truk dicuci di truck wash sebelum keluar dari area pelabuhan.</span></span>
+          </button>
+          <button class="mit-item port" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor"><path d="M4 20l3-11 2 .6L6.5 20z" stroke="none"/><path d="M9 9L19 4" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M8 8l1.5 1.5M9 6l2 1M6.5 10.5L9 12" stroke-width="1.2" fill="none" stroke-linecap="round"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Port Cleaning</span><span class="mit-detail">Penyiraman air rutin 3× sehari di dermaga, lapangan, dan jalan pelabuhan.</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="card mit-card">
+        <h3>Pengendalian Administratif</h3>
+        <div class="mit-grid wide">
+          <button class="mit-item wide sop" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 8h11a3 3 0 10-2.6-4.5" stroke-linecap="round"/><path d="M3 13h15a3 3 0 11-2.6 4.5" stroke-linecap="round"/><path d="M3 18h9" stroke-linecap="round"/></svg></span>
+            <span class="mit-body"><span class="mit-label">SOP Cuaca Ekstrem / Safety Pause</span><span class="mit-detail">Operasional dihentikan sementara jika anemometer mendeteksi kecepatan angin melebihi batas aman.</span></span>
+          </button>
+          <button class="mit-item wide komm" type="button" aria-expanded="false">
+            <span class="mit-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 10v4h3l6 4V6l-6 4z"/><path d="M15 9a4 4 0 010 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <span class="mit-body"><span class="mit-label">Komunikasi Efektif kepada Stakeholders</span><span class="mit-detail">Surat himbauan &amp; komunikasi rutin ke mitra PBM agar tertib memakai water sprayer, terpal, dan truck wash.</span></span>
+          </button>
+        </div>
+      </div>
+      <div class="card mit-card">
+        <h3>Alat Pelindung Diri (APD)</h3>
+        <div class="apd-card">
+          <button class="apd-chip" type="button" aria-expanded="false">
+            <span class="apd-chip-head">
+              <span class="apd-chip-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 15a8 8 0 0116 0z"/><rect x="2" y="15" width="20" height="3" rx="1.5"/></svg></span>
+              <span class="apd-chip-label">Helm</span><span class="apd-chip-plus">+</span>
+            </span>
+            <span class="apd-chip-detail">Melindungi kepala pekerja dari benturan alat berat &amp; benda jatuh di area bongkar muat.</span>
+          </button>
+          <button class="apd-chip" type="button" aria-expanded="false">
+            <span class="apd-chip-head">
+              <span class="apd-chip-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 10c0-2 3-3 8-3s8 1 8 3v4c0 2-3 4-8 4s-8-2-8-4z"/></svg></span>
+              <span class="apd-chip-label">Masker</span><span class="apd-chip-plus">+</span>
+            </span>
+            <span class="apd-chip-detail">Mengurangi risiko inhalasi debu batu bara bagi saluran pernapasan pekerja.</span>
+          </button>
+          <button class="apd-chip" type="button" aria-expanded="false">
+            <span class="apd-chip-head">
+              <span class="apd-chip-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="12" r="4.2"/><circle cx="17" cy="12" r="4.2"/><path d="M11.2 12h1.6"/></svg></span>
+              <span class="apd-chip-label">Kacamata</span><span class="apd-chip-plus">+</span>
+            </span>
+            <span class="apd-chip-detail">Melindungi mata dari paparan partikel debu batu bara saat bongkar muat.</span>
+          </button>
+          <button class="apd-chip" type="button" aria-expanded="false">
+            <span class="apd-chip-head">
+              <span class="apd-chip-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 4l6 4 6-4 2 3-4 3v10H8V10L4 7z"/></svg></span>
+              <span class="apd-chip-label">Rompi</span><span class="apd-chip-plus">+</span>
+            </span>
+            <span class="apd-chip-detail">Meningkatkan visibilitas pekerja di area operasional pelabuhan.</span>
+          </button>
+          <button class="apd-chip" type="button" aria-expanded="false">
+            <span class="apd-chip-head">
+              <span class="apd-chip-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4v9c0 1 1 2 2 2h13c1 0 1.5-1 .8-1.8l-4-4.2H9V4z"/></svg></span>
+              <span class="apd-chip-label">Safety Shoes</span><span class="apd-chip-plus">+</span>
+            </span>
+            <span class="apd-chip-detail">Melindungi kaki dari benda berat, tajam, dan permukaan licin di dermaga.</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="arsitektur">
+    <div class="sec-bar" data-reveal><h2>Arsitektur Manajemen Risiko</h2></div>
+
+    <div class="matrix-block" data-reveal>
+      <table class="matrix">
+        <thead>
+          <tr><th colspan="2"></th><th colspan="5">Tingkat Dampak</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="rowlabel">Hampir Pasti Terjadi</td><td class="rowlet">E</td>
+            <td class="cell lvl2">7<small>Low–Mod</small></td><td class="cell lvl3">12<small>Moderate</small></td><td class="cell lvl4">17<small>Mod–High</small></td><td class="cell lvl5">22<small>High</small></td><td class="cell lvl5">25<small>High</small></td></tr>
+          <tr><td class="rowlabel">Sangat Mungkin Terjadi</td><td class="rowlet">D</td>
+            <td class="cell lvl1">4<small>Low</small></td><td class="cell lvl2">9<small>Low–Mod</small></td><td class="cell lvl3">14<small>Moderate</small></td><td class="cell lvl4">19<small>Mod–High</small></td><td class="cell lvl5">24<small>High</small></td></tr>
+          <tr><td class="rowlabel">Bisa Terjadi</td><td class="rowlet">C</td>
+            <td class="cell lvl1">3<small>Low</small></td><td class="cell lvl2">8<small>Low–Mod</small></td><td class="cell lvl3">13<small>Moderate</small></td><td class="cell lvl4">18<small>Mod–High</small></td><td class="cell lvl5">23<small>High</small></td></tr>
+          <tr><td class="rowlabel">Jarang Terjadi</td><td class="rowlet">B</td>
+            <td class="cell lvl1">2<small>Low</small></td><td class="cell lvl2">6<small>Low–Mod</small></td><td class="cell lvl3">11<small>Moderate</small></td><td class="cell lvl4">16<small>Mod–High</small></td><td class="cell lvl5 marker">21<small>High ①</small></td></tr>
+          <tr><td class="rowlabel">Sangat Jarang Terjadi</td><td class="rowlet">A</td>
+            <td class="cell lvl1">1<small>Low</small></td><td class="cell lvl1">5<small>Low</small></td><td class="cell lvl2 marker">10<small>Low–Mod ②</small></td><td class="cell lvl3">15<small>Moderate</small></td><td class="cell lvl5">20<small>High</small></td></tr>
+          <tr><td class="axis-label" colspan="2" style="text-align:right;padding-right:10px;">Tingkat Kemungkinan ↑</td>
+            <td class="impact-head">1<br>Sangat Rendah</td><td class="impact-head">2<br>Rendah</td><td class="impact-head">3<br>Moderat</td><td class="impact-head">4<br>Tinggi</td><td class="impact-head">5<br>Sangat Tinggi</td></tr>
+        </tbody>
+      </table>
+      <div class="matrix-legend" aria-hidden="true">
+        <span class="lg lvl1">Low <small>skor 1–5</small></span>
+        <span class="lg lvl2">Low to Moderate <small>skor 6–10</small></span>
+        <span class="lg lvl3">Moderate <small>skor 11–15</small></span>
+        <span class="lg lvl4">Moderate to High <small>skor 16–19</small></span>
+        <span class="lg lvl5">High <small>skor 20–25</small></span>
+      </div>
+      <p class="matrix-note">Skor = Tingkat Kemungkinan × Tingkat Dampak. ① <b>Sebelum mitigasi:</b> skor risiko 21 (High) → ② <b>setelah mitigasi terintegrasi:</b> turun ke skor 10 (Low to Moderate).</p>
+    </div>
+
+    <div class="risklevels-grid" data-reveal>
+      <div class="rl-card rl-cap">
+        <div class="rl-head"><span>Risk Capacity</span><span class="rl-figure">IDR 3.5 M/thn</span></div>
+        <div class="rl-body">
+          <p class="rl-def">Kemampuan absolut &amp; maksimal perusahaan menanggung kerugian (finansial, operasional, reputasi) sebelum mengancam kelangsungan bisnis pelabuhan.</p>
+          <p class="rl-ctx">Kemampuan maksimal pelabuhan menyerap kerugian akibat demo masyarakat dan terhambatnya kegiatan operasional.</p>
+          <ul class="rl-params">
+            <li><b>Operasional:</b> maksimal 1×24 jam bertahan dalam kondisi blokade akses total sebelum rantai pasok nasional lumpuh</li>
+            <li><b>Reputasi:</b> zero tolerance atas pencabutan izin lingkungan / ISPS Code</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rl-card rl-tol">
+        <div class="rl-head"><span>Risk Tolerance</span><span class="rl-figure">IDR 2.5 M/thn</span></div>
+        <div class="rl-body">
+          <p class="rl-def">Batas penyimpangan yang masih bisa ditoleransi dari Risk Appetite — "lampu kuning" sebelum menyentuh batas kritis.</p>
+          <p class="rl-ctx">Penurunan kecepatan bongkar muat (TGH) akibat penghentian sementara saat terjadi demo yang masih bisa ditoleransi.</p>
+          <ul class="rl-params">
+            <li><b>Lingkungan:</b> maksimal 80% dari Nilai Ambang Batas (mis. PM10 60 µg/Nm³ dari batas 75 µg/Nm³)</li>
+            <li><b>Sosial:</b> maksimal 3 keluhan tertulis/kuartal, selesai &lt;2×24 jam via mediasi tanpa demo fisik</li>
+            <li><b>Operasional:</b> penurunan TGH ditoleransi maksimal 15% dari standar normal</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rl-card rl-app">
+        <div class="rl-head"><span>Risk Appetite</span><span class="rl-figure">IDR 1.3 M/thn</span></div>
+        <div class="rl-body">
+          <p class="rl-def">Tingkat &amp; jenis risiko yang bersedia diambil demi mencapai target strategis throughput bongkar muat tahunan.</p>
+          <p class="rl-ctx">Perusahaan bersedia mengambil risiko dalam mengelola curah kering batu bara dengan nilai risiko yang dapat diterima.</p>
+          <ul class="rl-params">
+            <li><b>Sikap umum:</b> "Sedang (Moderate)" — tetap patuh baku mutu lingkungan hidup</li>
+            <li><b>Komitmen biaya:</b> 2%–5% dari total margin operasi batu bara untuk mitigasi lingkungan &amp; CSR Ring 1</li>
+            <li><b>Sikap sosial:</b> "Low" terhadap eskalasi konflik — dialog proaktif diutamakan dibanding tindakan represif</li>
+          </ul>
+        </div>
+      </div>
+      <div class="rl-card rl-lim">
+        <div class="rl-head"><span>Risk Limit</span><span class="rl-figure">IDR 1 M/thn</span></div>
+        <div class="rl-body">
+          <p class="rl-def">Angka eksak &amp; trigger lapangan — "lampu merah" yang menghentikan operasional otomatis tanpa menunggu persetujuan manajemen atas.</p>
+          <p class="rl-ctx">Terdapat kerumunan massa yang memblokir gerbang pelabuhan dengan maksimal risiko yang dapat diterima.</p>
+          <ul class="rl-params">
+            <li><b>Cuaca:</b> anemometer &gt;15 knot (28 km/jam) → bongkar muat excavator berhenti otomatis</li>
+            <li><b>Kualitas udara:</b> PM10 lampaui baku mutu → sprayer maksimal, ritase water truck digandakan jadi tiap 1 jam</li>
+            <li><b>Konflik sosial:</b> kerumunan &gt;50 orang radius 500 m dari gerbang, atau blokade &gt;2 jam → aktivasi BCP &amp; eskalasi ke Polisi/TNI</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="foot-row">
+    <span>𝕏 @indonesiaport · f · @pelindo · pelindo.co.id</span>
+    <span><b>Regional 2 Cirebon</b> · #MelayaniSepenuhHati</span>
+  </div>
+</footer>
+
+<script>
+  const bar = document.getElementById('progress');
+  function updateProgress(){
+    const h = document.documentElement;
+    const scrolled = h.scrollTop, max = h.scrollHeight - h.clientHeight;
+    bar.style.width = (max > 0 ? (scrolled/max)*100 : 0) + '%';
+  }
+  document.addEventListener('scroll', updateProgress, {passive:true});
+  updateProgress();
+
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const revealEls = document.querySelectorAll('[data-reveal]');
+  if(!reduceMotion && 'IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
+    },{threshold:0.12});
+    revealEls.forEach(el=>io.observe(el));
+  } else { revealEls.forEach(el=>el.classList.add('is-visible')); }
+
+  const railLinks = document.querySelectorAll('.rail a');
+  const sections = Array.from(railLinks).map(a=>document.getElementById(a.dataset.target)).filter(Boolean);
+  function updateRail(){
+    let current = sections[0];
+    sections.forEach(sec=>{ if(sec.getBoundingClientRect().top < window.innerHeight*0.4) current = sec; });
+    railLinks.forEach(a=>a.classList.toggle('active', a.dataset.target === current.id));
+  }
+  document.addEventListener('scroll', updateRail, {passive:true});
+  updateRail();
+
+  document.querySelectorAll('.mit-item, .apd-chip').forEach(item=>{
+    item.addEventListener('click', ()=>{
+      const willOpen = !item.classList.contains('open');
+      item.classList.toggle('open', willOpen);
+      item.setAttribute('aria-expanded', String(willOpen));
+    });
+  });
+</script>
+
+</body>
+</html>
